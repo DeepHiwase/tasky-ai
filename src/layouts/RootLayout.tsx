@@ -18,7 +18,9 @@ const RootLayout = () => {
       <div className={cn("min-h-[100vh]", "flex flex-col", "overflow-hidden")}>
         <Header />
 
-        <main className="grow">
+        <main
+          className={cn("grow", "pt-36 pb-16", "grid grid-cols-1 items-center")}
+        >
           <Outlet />
         </main>
 
