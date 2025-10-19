@@ -17,6 +17,10 @@ const AuthSyncPage = () => {
     if (!isLoaded) return;
 
     if (!isSignedIn) {
+      if (localStorage.getItem("clerkUserId")) {
+        localStorage.removeItem("clerkUserId");
+      }
+
       navigate("/");
       return;
     }

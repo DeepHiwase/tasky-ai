@@ -5,14 +5,21 @@
  */
 
 // Node Modules
-import { Outlet } from "react-router";
+import { Outlet, useNavigation } from "react-router";
+import { Loader2 } from "lucide-react";
 // Custom modules
 import { cn } from "@/lib/utils";
 // Components
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+// Assets
+import { logo } from "@/assets";
 
 const RootLayout = () => {
+  const navigation = useNavigation();
+
+  const isLoading = navigation.state === "loading" && !navigation.formData;
+
   return (
     <>
       <div
@@ -48,6 +55,26 @@ const RootLayout = () => {
             "bg-primary/20 blur-3xl",
           )}
         ></div>
+
+        {/* Loader */}
+        {isLoading && (
+          <div
+            className={cn(
+              "fixed top-0 left-0 z-50",
+              "h-[100dvh] w-full",
+              "flex flex-col justify-center items-center gap-5",
+              "bg-background",
+            )}
+          >
+            <img
+              src={logo}
+              width={64}
+              height={64}
+              alt="Tasky AI"
+            />
+            <Loader2 className="text-muted-foreground animate-spin" />
+          </div>
+        )}
       </div>
     </>
   );
