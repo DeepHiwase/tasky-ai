@@ -15,7 +15,14 @@ import Footer from "@/components/Footer";
 const RootLayout = () => {
   return (
     <>
-      <div className={cn("min-h-[100vh]", "flex flex-col", "overflow-hidden")}>
+      <div
+        className={cn(
+          "relative isolate",
+          "min-h-[100vh]",
+          "flex flex-col",
+          "overflow-hidden",
+        )}
+      >
         <Header />
 
         <main
@@ -25,6 +32,22 @@ const RootLayout = () => {
         </main>
 
         <Footer />
+
+        {/* Background shapes */}
+        <div
+          className={cn(
+            "absolute top-20 left-0 rotate-45 origin-top-left",
+            "w-80 h-10",
+            "bg-primary/20 blur-3xl",
+          )}
+        ></div>
+        <div
+          className={cn(
+            "absolute top-20 right-0 -rotate-45 origin-top-right",
+            "w-80 h-10",
+            "bg-primary/20 blur-3xl",
+          )}
+        ></div>
       </div>
     </>
   );

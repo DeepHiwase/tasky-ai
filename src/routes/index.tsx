@@ -12,6 +12,7 @@ import RootLayout from "@/layouts/RootLayout";
 import HomePage from "@/pages/HomePage";
 import RegisterPage from "@/pages/RegisterPage";
 import LoginPage from "@/pages/LoginPage";
+import AuthSyncPage from "@/pages/AuthSyncPage";
 // Error Boundaries
 import RootErrorBoundary from "@/pages/RootErrorBoundary";
 // Types
@@ -29,6 +30,10 @@ const rootRouteChildren: RouteObject[] = [
   {
     path: "login",
     element: <LoginPage />,
+  },
+  {
+    path: "auth-sync",
+    element: <AuthSyncPage />,
   },
 ];
 
