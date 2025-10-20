@@ -8,11 +8,13 @@
 import { createBrowserRouter } from "react-router";
 // Layouts
 import RootLayout from "@/layouts/RootLayout";
+import AppLayout from "@/layouts/AppLayout";
 // Pages
 import HomePage from "@/pages/HomePage";
 import RegisterPage from "@/pages/RegisterPage";
 import LoginPage from "@/pages/LoginPage";
 import AuthSyncPage from "@/pages/AuthSyncPage";
+import InboxPage from "@/pages/InboxPage";
 // Error Boundaries
 import RootErrorBoundary from "@/pages/RootErrorBoundary";
 // Types
@@ -37,12 +39,24 @@ const rootRouteChildren: RouteObject[] = [
   },
 ];
 
+const appRouteChildren: RouteObject[] = [
+  {
+    path: "inbox",
+    element: <InboxPage />,
+  },
+];
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     errorElement: <RootErrorBoundary />,
     children: rootRouteChildren,
+  },
+  {
+    path: "/app",
+    element: <AppLayout />,
+    children: appRouteChildren,
   },
 ]);
 
