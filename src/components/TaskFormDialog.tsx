@@ -17,9 +17,26 @@ import TaskForm from "@/components/TaskForm";
 import type { PropsWithChildren } from "react";
 
 const TaskFormDialog: React.FC<PropsWithChildren> = ({ children }) => {
-  const [open, setOpen] = useState(false);
   const location = useLocation();
   const fetcher = useFetcher();
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if (event.key === "q") {
+        const target = event.target as HTMLElement;
+        if (target.localName === "textarea") return;
+
+        event.preventDefault();
+        setOpen(true);
+      }
+    };
+
+    document.addEventListener("keydown", listener);
+
+    return () => document.removeEventListener("keydown", listener);
+  }, []);
 
   return (
     <Dialog
