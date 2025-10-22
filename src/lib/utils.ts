@@ -21,6 +21,7 @@ import {
   isTomorrow,
   startOfToday,
 } from "date-fns";
+import { redirect } from "react-router";
 
 // Capitalizes the first letter of a string.
 export function toTitleString(str: string) {
@@ -79,4 +80,31 @@ export function getTaskDueDateColorClass(
   if (isTomorrow(dueDate) && !completed) {
     return "text-amber-500";
   }
+}
+
+/**
+ * Generates a unique ID by combining the current timestamp and a random number.
+ *
+ * This function creates an identifier using the current timestamp in milliseconds
+ * (converted to a base-36 string) concatenated with a random number,
+ * also converted to a base-36 string and sliced to remove unnecessary characters.
+ *
+ * @returns {string} A unique identifier string
+ */
+export function generateID() {
+  return Math.random().toString(36).slice(8) + Date.now().toString(36);
+}
+
+/**
+ * Redirects the user to the auth sync page if the user ID is not found in the localstorage or returns the user ID
+ */
+export function getUserId(): string {
+  const clerkUserId = localStorage.getItem("clerkUserId");
+
+  if (!clerkUserId) {
+    redirect("/auth-sync");
+    return "";
+  }
+
+  return clerkUserId;
 }

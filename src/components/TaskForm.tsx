@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
+import * as chrono from "chrono-node";
 // Custom Modules
 import { cn, formatCustomDate, getTaskDueDateColorClass } from "@/lib/utils";
 // Components
@@ -84,6 +85,16 @@ const TaskForm: React.FC<TaskFormProps> = ({
       project: projectName,
     }));
   }, [taskContent, dueDate, projectName]);
+
+  useEffect(() => {
+    const chronoParsed = chrono.parse(taskContent);
+
+    if (chronoParsed.length) {
+      const lastDate = chronoParsed[chronoParsed.length - 1];
+
+      setDueDate(lastDate.date());
+    }
+  }, [taskContent]);
 
   const handleSubmit = useCallback(() => {
     if (!taskContent) return;
@@ -172,7 +183,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             <Button
               variant="ghost"
               role="combobox"
-              aria-expanded={false}
+              aria-expanded={projectOpen}
               className="max-w-max"
             >
               <Inbox /> Inbox <ChevronDown />
