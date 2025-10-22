@@ -4,8 +4,18 @@
  * @description Inbox Page for the app
  */
 
+// Components
+import Head from "@/components/Head";
+import TopAppBar from "@/components/TopAppBar";
+
 const InboxPage = () => {
-  return <div>InboxPage</div>;
+  return (
+    <>
+      <Head title="Inbox - Tasky AI" />
+
+      <TopAppBar />
+    </>
+  );
 };
 
 export default InboxPage;

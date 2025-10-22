@@ -7,7 +7,7 @@
 // Node Modules
 import { Outlet } from "react-router";
 // Components
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/AppSidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
@@ -20,9 +20,9 @@ const AppLayout = () => {
       >
         <AppSidebar />
 
-        <SidebarTrigger />
-        <div>AppLayout</div>
-        <Outlet />
+        <main className="flex-1">
+          <Outlet />
+        </main>
       </TooltipProvider>
     </SidebarProvider>
   );
