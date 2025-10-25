@@ -13,7 +13,10 @@ const InboxPage = () => {
     <>
       <Head title="Inbox - Tasky AI" />
 
-      <TopAppBar />
+      <TopAppBar
+        title="Inbox"
+        taskCount={20}
+      />
     </>
   );
 };
