@@ -6,7 +6,7 @@
 
 // Node Modules
 import { Check, CalendarDays, Hash, Inbox, Edit, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useFetcher } from "react-router";
 // Custom Modules
 import { cn, formatCustomDate, getTaskDueDateColorClass } from "@/lib/utils";
@@ -55,6 +55,17 @@ const TaskCard: React.FC<TaskCardProps> = ({
     fetcherTask,
   );
 
+  const handleTaskComplete = useCallback(
+    async (completed: boolean) => {
+      return await fetcher.submit(JSON.stringify({ id: task.id, completed }), {
+        action: "/app",
+        method: "PUT",
+        encType: "application/json",
+      });
+    },
+    [task.id, task.completed],
+  );
+
   return (
     <>
       {!taskFormShow && (
@@ -79,6 +90,9 @@ const TaskCard: React.FC<TaskCardProps> = ({
             aria-checked={task.completed}
             aria-label={`Mark task as ${task.completed ? "incomplete" : "complete"}`}
             aria-describedby="task-content"
+            onClick={async () => {
+              await handleTaskComplete(!task.completed);
+            }}
           >
             <Check
               strokeWidth={4}
