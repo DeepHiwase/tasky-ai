@@ -26,7 +26,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({ title, taskCount }) => {
   const [showTitle, setShowTitle] = useState(false);
 
   useEffect(() => {
-    const listener = () => setShowTitle(window.scrollY < 70);
+    const listener = () => setShowTitle(window.scrollY > 70);
 
     listener();
     window.addEventListener("scroll", listener);
