@@ -19,6 +19,8 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import TaskForm from "@/components/TaskForm";
+// Hooks
+import { toast } from "sonner";
 // Types
 import type { Models } from "appwrite";
 import type { Task } from "@/types";
@@ -92,6 +94,15 @@ const TaskCard: React.FC<TaskCardProps> = ({
             aria-describedby="task-content"
             onClick={async () => {
               await handleTaskComplete(!task.completed);
+
+              toast("1 task completed", {
+                action: {
+                  label: "Undo",
+                  onClick() {
+                    handleTaskComplete.bind(null, false);
+                  },
+                },
+              });
             }}
           >
             <Check
