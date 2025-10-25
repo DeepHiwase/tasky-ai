@@ -26,11 +26,34 @@ const createTask = async (data: Task) => {
   }
 };
 
+const updateTask = async (data: Task) => {
+  const rowId = data.id;
+
+  if (!rowId) throw new Error("Task is not found.");
+
+  delete data.id;
+
+  try {
+    return await tablesDB.upsertRow({
+      databaseId: APPWRITE_TABLEDB_ID,
+      tableId: "tasks",
+      rowId,
+      data,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const appAction: ActionFunction = async ({ request }) => {
   const data = (await request.json()) as Task;
 
   if (request.method === "POST") {
     return await createTask(data);
+  }
+
+  if (request.method === "PUT") {
+    return await updateTask(data);
   }
 };
 
