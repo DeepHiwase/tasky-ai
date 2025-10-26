@@ -15,12 +15,14 @@ import RegisterPage from "@/pages/RegisterPage";
 import LoginPage from "@/pages/LoginPage";
 import AuthSyncPage from "@/pages/AuthSyncPage";
 import InboxPage from "@/pages/InboxPage";
+import TodayTaskPage from "@/pages/TodayTaskPage";
 // Error Boundaries
 import RootErrorBoundary from "@/pages/RootErrorBoundary";
 // Actions
 import appAction from "@/routes/actions/appAction";
 // Loaders
 import inboxTaskLoader from "@/routes/loaders/inboxLoader";
+import todayTaskLoader from "@/routes/loaders/todayTaskLoader";
 // Types
 import type { RouteObject } from "react-router";
 
@@ -48,6 +50,11 @@ const appRouteChildren: RouteObject[] = [
     path: "inbox",
     element: <InboxPage />,
     loader: inboxTaskLoader,
+  },
+  {
+    path: "today",
+    element: <TodayTaskPage />,
+    loader: todayTaskLoader,
   },
 ];
 

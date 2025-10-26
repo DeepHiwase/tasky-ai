@@ -5,7 +5,7 @@
  */
 
 // Node Modules
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { UserButton } from "@clerk/clerk-react";
 import { CirclePlus, Plus, ChevronRight } from "lucide-react";
 // Custom Modules
@@ -37,10 +37,16 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import TaskFormDialog from "@/components/TaskFormDialog";
+// Hooks
+import { useSidebar } from "@/components/ui/sidebar";
 // Constants
 import { SIDEBAR_LINKS } from "@/constants";
 
 const AppSidebar = () => {
+  const location = useLocation();
+
+  const { isMobile, setOpenMobile } = useSidebar();
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -68,7 +74,13 @@ const AppSidebar = () => {
               {/* Sidebar Links */}
               {SIDEBAR_LINKS.map((item, index) => (
                 <SidebarMenuItem key={index}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={location.pathname === item.href}
+                    onClick={() => {
+                      if (isMobile) setOpenMobile(false);
+                    }}
+                  >
                     <Link to={item.href}>
                       <item.icon />
 
