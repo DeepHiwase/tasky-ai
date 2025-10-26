@@ -17,6 +17,7 @@ import AuthSyncPage from "@/pages/AuthSyncPage";
 import InboxPage from "@/pages/InboxPage";
 import TodayTaskPage from "@/pages/TodayTaskPage";
 import UpcomingTaskPage from "@/pages/UpcomingTaskPage";
+import CompletedTaskPage from "@/pages/CompletedTaskPage";
 // Error Boundaries
 import RootErrorBoundary from "@/pages/RootErrorBoundary";
 // Actions
@@ -25,6 +26,7 @@ import appAction from "@/routes/actions/appAction";
 import inboxTaskLoader from "@/routes/loaders/inboxLoader";
 import todayTaskLoader from "@/routes/loaders/todayTaskLoader";
 import upcomingTaskLoader from "./loaders/upcomingTaskLoader";
+import completedTaskLoader from "./loaders/completedTaskLoader";
 // Types
 import type { RouteObject } from "react-router";
 
@@ -62,6 +64,11 @@ const appRouteChildren: RouteObject[] = [
     path: "upcoming",
     element: <UpcomingTaskPage />,
     loader: upcomingTaskLoader,
+  },
+  {
+    path: "completed",
+    element: <CompletedTaskPage />,
+    loader: completedTaskLoader,
   },
 ];
 
