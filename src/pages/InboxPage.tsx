@@ -57,7 +57,7 @@ const InboxPage = () => {
             <TaskCreateButton onClick={() => setTaskFormShow(true)} />
           )}
 
-          {!taskFormShow && <TaskEmptyState type="inbox" />}
+          {!tasks.total && !taskFormShow && <TaskEmptyState type="inbox" />}
 
           {taskFormShow && (
             <TaskForm

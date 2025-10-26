@@ -45,6 +45,22 @@ const updateTask = async (data: Task) => {
   }
 };
 
+const deleteTask = async (data: Task) => {
+  const rowId = data.id;
+
+  if (!rowId) throw new Error("Task is not found.");
+
+  try {
+    return await tablesDB.deleteRow({
+      databaseId: APPWRITE_TABLEDB_ID,
+      tableId: "tasks",
+      rowId,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const appAction: ActionFunction = async ({ request }) => {
   const data = (await request.json()) as Task;
 
@@ -54,6 +70,10 @@ const appAction: ActionFunction = async ({ request }) => {
 
   if (request.method === "PUT") {
     return await updateTask(data);
+  }
+
+  if (request.method === "DELETE") {
+    return await deleteTask(data);
   }
 };
 
