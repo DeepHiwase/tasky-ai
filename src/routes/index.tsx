@@ -22,6 +22,7 @@ import CompletedTaskPage from "@/pages/CompletedTaskPage";
 import RootErrorBoundary from "@/pages/RootErrorBoundary";
 // Actions
 import appAction from "@/routes/actions/appAction";
+import projectAction from "./actions/projectAction";
 // Loaders
 import inboxTaskLoader from "@/routes/loaders/inboxLoader";
 import todayTaskLoader from "@/routes/loaders/todayTaskLoader";
@@ -69,6 +70,10 @@ const appRouteChildren: RouteObject[] = [
     path: "completed",
     element: <CompletedTaskPage />,
     loader: completedTaskLoader,
+  },
+  {
+    path: "projects",
+    action: projectAction,
   },
 ];
 
