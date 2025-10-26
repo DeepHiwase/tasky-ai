@@ -15,6 +15,7 @@ import TaskCreateButton from "@/components/TaskCreateButton";
 import TaskEmptyState from "@/components/TaskEmptyState";
 import TaskForm from "@/components/TaskForm";
 import TaskCard from "@/components/TaskCard";
+import TaskCardSkeleton from "@/components/TaskCardSkeleton";
 // Types
 import type { Models } from "appwrite";
 
@@ -31,10 +32,7 @@ const InboxPage = () => {
     <>
       <Head title="Inbox - Tasky AI" />
 
-      <TopAppBar
-        title="Inbox"
-        taskCount={20}
-      />
+      <TopAppBar title="Inbox" />
 
       <Page>
         <PageHeader>
@@ -52,6 +50,8 @@ const InboxPage = () => {
               project={project}
             />
           ))}
+
+          {fetcher.state !== "idle" && <TaskCardSkeleton />}
 
           {!taskFormShow && (
             <TaskCreateButton onClick={() => setTaskFormShow(true)} />
