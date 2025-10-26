@@ -76,7 +76,7 @@ const TodayTaskPage = () => {
             <TaskCreateButton onClick={() => setTaskFormShow(true)} />
           )}
 
-          {!tasks.total && !taskFormShow && <TaskEmptyState type="inbox" />}
+          {!tasks.total && !taskFormShow && <TaskEmptyState type="today" />}
 
           {taskFormShow && (
             <TaskForm

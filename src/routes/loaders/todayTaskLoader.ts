@@ -30,7 +30,7 @@ const getTasks = async () => {
     });
   } catch (err) {
     console.error(err);
-    throw new Error("Error getting inbox tasks");
+    throw new Error("Error getting today's tasks");
   }
 };
 
