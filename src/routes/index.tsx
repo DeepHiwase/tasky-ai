@@ -18,6 +18,7 @@ import InboxPage from "@/pages/InboxPage";
 import TodayTaskPage from "@/pages/TodayTaskPage";
 import UpcomingTaskPage from "@/pages/UpcomingTaskPage";
 import CompletedTaskPage from "@/pages/CompletedTaskPage";
+import ProjectsPage from "@/pages/ProjectsPage";
 // Error Boundaries
 import RootErrorBoundary from "@/pages/RootErrorBoundary";
 // Actions
@@ -26,8 +27,9 @@ import projectAction from "./actions/projectAction";
 // Loaders
 import inboxTaskLoader from "@/routes/loaders/inboxLoader";
 import todayTaskLoader from "@/routes/loaders/todayTaskLoader";
-import upcomingTaskLoader from "./loaders/upcomingTaskLoader";
-import completedTaskLoader from "./loaders/completedTaskLoader";
+import upcomingTaskLoader from "@/routes/loaders/upcomingTaskLoader";
+import completedTaskLoader from "@/routes/loaders/completedTaskLoader";
+import projectsLoader from "@/routes/loaders/projectsLoader";
 // Types
 import type { RouteObject } from "react-router";
 
@@ -73,7 +75,9 @@ const appRouteChildren: RouteObject[] = [
   },
   {
     path: "projects",
+    element: <ProjectsPage />,
     action: projectAction,
+    loader: projectsLoader,
   },
 ];
 
