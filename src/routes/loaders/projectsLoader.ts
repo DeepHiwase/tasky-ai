@@ -13,12 +13,13 @@ import type { LoaderFunction } from "react-router";
 
 const APPWRITE_TABLEDB_ID = import.meta.env.VITE_APPWRITE_TABLEDB_ID;
 
-const getProjects = async () => {
+const getProjects = async (query: string) => {
   try {
     return await tablesDB.listRows({
       databaseId: APPWRITE_TABLEDB_ID,
       tableId: "projects",
       queries: [
+        Query.contains("name", query),
         Query.select(["$id", "name", "color_name", "color_hex", "$createdAt"]),
         Query.equal("userId", getUserId()),
         Query.orderDesc("$createdAt"),
@@ -30,8 +31,11 @@ const getProjects = async () => {
   }
 };
 
-const projectsLoader: LoaderFunction = async () => {
-  const projects = await getProjects();
+const projectsLoader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const query = url.searchParams.get("q") || "";
+
+  const projects = await getProjects(query);
 
   return { projects };
 };

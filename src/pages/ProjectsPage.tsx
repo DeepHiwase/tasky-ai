@@ -17,19 +17,45 @@ import TopAppBar from "@/components/TopAppBar";
 import ProjectFormDialog from "@/components/ProjectFormDialog";
 import { Page, PageHeader, PageTitle, PageList } from "@/components/Page";
 import ProjectCard from "@/components/ProjectCard";
+import ProjectSearchField from "@/components/ProjectSearchField";
 // Types
 import type { Models } from "appwrite";
+import type { SearchingState } from "@/components/ProjectSearchField";
+
+const SEARCH_TIMEOUT_DELAY = 500;
 
 type DataType = {
   projects: Models.RowList<Models.Row>;
 };
 
 const ProjectsPage = () => {
+  const fetcher = useFetcher();
+  const fetcherData = fetcher.data as DataType;
   const loaderData = useLoaderData() as DataType;
 
-  const { projects } = loaderData;
+  const { projects } = fetcherData || loaderData;
 
-  console.log(projects);
+  const [searchingState, setSearchingState] = useState<SearchingState>("idle");
+
+  const searchTimeout = useRef<NodeJS.Timeout>(null);
+
+  const handleProjectSearch = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (searchTimeout.current) {
+        clearTimeout(searchTimeout.current);
+      }
+      const submitTarget = e.currentTarget.form;
+
+      searchTimeout.current = setTimeout(async () => {
+        setSearchingState("searching");
+        await fetcher.submit(submitTarget);
+        setSearchingState("idle");
+      }, SEARCH_TIMEOUT_DELAY);
+
+      setSearchingState("loading");
+    },
+    [],
+  );
 
   return (
     <>
@@ -53,6 +79,16 @@ const ProjectsPage = () => {
               </Button>
             </ProjectFormDialog>
           </div>
+
+          <fetcher.Form
+            method="GET"
+            action="/app/projects"
+          >
+            <ProjectSearchField
+              handleChange={handleProjectSearch}
+              searchingState={searchingState}
+            />
+          </fetcher.Form>
         </PageHeader>
 
         <PageList>
@@ -60,13 +96,25 @@ const ProjectsPage = () => {
             <div className="text-sm">{projects?.total} projects</div>
           </div>
 
-          <div className="">
+          <div className={cn(searchingState === "searching" && "opacity-25")}>
             {projects?.rows?.map((project) => (
               <ProjectCard
                 key={project.$id}
                 project={project}
               />
             ))}
+
+            {projects.total === 0 && (
+              <div
+                className={cn(
+                  "h-14",
+                  "flex items-center justify-center",
+                  "text-muted-foreground",
+                )}
+              >
+                No project found
+              </div>
+            )}
           </div>
         </PageList>
       </Page>
