@@ -5,7 +5,7 @@
  */
 
 // Node Modules
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useLoaderData } from "react-router";
 import { UserButton } from "@clerk/clerk-react";
 import {
   CirclePlus,
@@ -51,10 +51,14 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { useProjects } from "@/contexts/ProjectContext";
 // Constants
 import { SIDEBAR_LINKS } from "@/constants";
+// Types
+import type { AppLoaderData } from "@/routes/loaders/appLoader";
 
 const AppSidebar = () => {
   const location = useLocation();
   const projects = useProjects();
+
+  const { taskCounts } = useLoaderData() as AppLoaderData;
 
   const { isMobile, setOpenMobile } = useSidebar();
 
@@ -99,7 +103,20 @@ const AppSidebar = () => {
                     </Link>
                   </SidebarMenuButton>
 
-                  <SidebarMenuBadge>0</SidebarMenuBadge>
+                  {/* Show task count in inbox menu items */}
+                  {item.href === "/app/inbox" &&
+                    Boolean(taskCounts.inboxTasks) && (
+                      <SidebarMenuBadge>
+                        {taskCounts.inboxTasks}
+                      </SidebarMenuBadge>
+                    )}
+
+                  {item.href === "/app/today" &&
+                    Boolean(taskCounts.todayTasks) && (
+                      <SidebarMenuBadge>
+                        {taskCounts.todayTasks}
+                      </SidebarMenuBadge>
+                    )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
