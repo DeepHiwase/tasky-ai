@@ -7,7 +7,13 @@
 // Node Modules
 import { Link, useLocation } from "react-router";
 import { UserButton } from "@clerk/clerk-react";
-import { CirclePlus, Plus, ChevronRight } from "lucide-react";
+import {
+  CirclePlus,
+  Plus,
+  ChevronRight,
+  Hash,
+  MoreHorizontal,
+} from "lucide-react";
 // Custom Modules
 import { cn } from "@/lib/utils";
 // Components
@@ -24,6 +30,7 @@ import {
   SidebarMenuBadge,
   SidebarGroupAction,
   SidebarGroupLabel,
+  SidebarMenuAction,
 } from "@/components/ui/sidebar";
 import Logo from "@/components/Logo";
 import {
@@ -38,13 +45,16 @@ import {
 } from "@/components/ui/tooltip";
 import TaskFormDialog from "@/components/TaskFormDialog";
 import ProjectFormDialog from "@/components/ProjectFormDialog";
+import ProjectActionMenu from "@/components/ProjectActionMenu";
 // Hooks
 import { useSidebar } from "@/components/ui/sidebar";
+import { useProjects } from "@/contexts/ProjectContext";
 // Constants
 import { SIDEBAR_LINKS } from "@/constants";
 
 const AppSidebar = () => {
   const location = useLocation();
+  const projects = useProjects();
 
   const { isMobile, setOpenMobile } = useSidebar();
 
@@ -121,6 +131,7 @@ const AppSidebar = () => {
               </CollapsibleTrigger>
             </SidebarGroupLabel>
 
+            {/* Project Create Button */}
             <Tooltip>
               <ProjectFormDialog method="POST">
                 <TooltipTrigger asChild>
@@ -136,11 +147,71 @@ const AppSidebar = () => {
             <CollapsibleContent>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  <SidebarMenuItem>
-                    <p className={cn("p-2", "text-muted-foreground text-sm")}>
-                      Click + to add some projects
-                    </p>
-                  </SidebarMenuItem>
+                  {projects?.rows
+                    .slice(0, 5)
+                    .map(({ $id, name, color_name, color_hex }) => (
+                      <SidebarMenuItem key={$id}>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={
+                            location.pathname === `/app/projects/${$id}`
+                          }
+                          onClick={() => {
+                            if (isMobile) setOpenMobile(false);
+                          }}
+                        >
+                          <Link to={`/app/projects/${$id}`}>
+                            <Hash color={color_hex} />
+
+                            <span>{name}</span>
+                          </Link>
+                        </SidebarMenuButton>
+
+                        <ProjectActionMenu
+                          defaultFormData={{
+                            id: $id,
+                            name,
+                            color_name,
+                            color_hex,
+                          }}
+                          side="right"
+                          align="start"
+                        >
+                          <SidebarMenuAction
+                            aria-label="More actions"
+                            showOnHover
+                            className="bg-accent"
+                          >
+                            <MoreHorizontal />
+                          </SidebarMenuAction>
+                        </ProjectActionMenu>
+                      </SidebarMenuItem>
+                    ))}
+
+                  {projects !== null && projects.total > 5 && (
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        asChild
+                        className="text-muted-foreground"
+                        isActive={location.pathname === "/app/projects"}
+                        onClick={() => {
+                          if (isMobile) setOpenMobile(false);
+                        }}
+                      >
+                        <Link to="/app/projects">
+                          <MoreHorizontal /> All projects
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )}
+
+                  {!projects?.total && (
+                    <SidebarMenuItem>
+                      <p className={cn("p-2", "text-muted-foreground text-sm")}>
+                        Click + to add some projects
+                      </p>
+                    </SidebarMenuItem>
+                  )}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>
