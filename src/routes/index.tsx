@@ -19,6 +19,7 @@ import TodayTaskPage from "@/pages/TodayTaskPage";
 import UpcomingTaskPage from "@/pages/UpcomingTaskPage";
 import CompletedTaskPage from "@/pages/CompletedTaskPage";
 import ProjectsPage from "@/pages/ProjectsPage";
+import ProjectDetailPage from "@/pages/ProjectDetailPage";
 // Error Boundaries
 import RootErrorBoundary from "@/pages/RootErrorBoundary";
 // Actions
@@ -30,6 +31,8 @@ import todayTaskLoader from "@/routes/loaders/todayTaskLoader";
 import upcomingTaskLoader from "@/routes/loaders/upcomingTaskLoader";
 import completedTaskLoader from "@/routes/loaders/completedTaskLoader";
 import projectsLoader from "@/routes/loaders/projectsLoader";
+import projectDetailLoader from "@/routes/loaders/projectDetailLoader";
+import appLoader from "@/routes/loaders/appLoader";
 // Types
 import type { RouteObject } from "react-router";
 
@@ -79,6 +82,11 @@ const appRouteChildren: RouteObject[] = [
     action: projectAction,
     loader: projectsLoader,
   },
+  {
+    path: "projects/:projectId",
+    element: <ProjectDetailPage />,
+    loader: projectDetailLoader,
+  },
 ];
 
 const router = createBrowserRouter([
@@ -93,6 +101,7 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: appRouteChildren,
     action: appAction,
+    loader: appLoader,
   },
 ]);
 

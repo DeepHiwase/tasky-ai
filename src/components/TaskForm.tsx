@@ -7,6 +7,7 @@
 // Node Modules
 import {
   CalendarIcon,
+  Check,
   ChevronDown,
   Hash,
   Inbox,
@@ -42,10 +43,13 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { ScrollArea } from "@/components/ui/scroll-area";
+// Hooks
+import { useProjects } from "@/contexts/ProjectContext";
 // Types
 import type { ClassValue } from "clsx";
 import type { TaskForm } from "@/types";
 import type React from "react";
+import type { Models } from "appwrite";
 
 type TaskFormProps = {
   defaultFormData?: TaskForm;
@@ -68,6 +72,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
   onCancel,
   onSubmit,
 }) => {
+  const projects = useProjects();
+  console.log("TaskForm", projects);
+
   const [taskContent, setTaskContent] = useState(defaultFormData.content);
   const [dueDate, setDueDate] = useState(defaultFormData.due_date);
   const [projectId, setProjectId] = useState(defaultFormData.project);
@@ -76,6 +83,19 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [dueDateOpen, setDueDateOpen] = useState(false);
   const [projectOpen, setProjectOpen] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
+
+  useEffect(() => {
+    if (projectId) {
+      if (!projectId || !projects?.rows) return;
+      const project = projects.rows.find(
+        (p: Models.Row) => p.$id === projectId,
+      );
+      if (!project) return;
+
+      setProjectName(project.name);
+      setProjectColorHex(project.color_hex);
+    }
+  }, [projects, projectId]);
 
   useEffect(() => {
     setFormData((prevFormData) => ({
@@ -193,7 +213,11 @@ const TaskForm: React.FC<TaskFormProps> = ({
               aria-expanded={projectOpen}
               className="max-w-max"
             >
-              <Inbox /> Inbox <ChevronDown />
+              {projectName ? <Hash color={projectColorHex} /> : <Inbox />}
+
+              <span className="">{projectName || "Inbox"}</span>
+
+              <ChevronDown />
             </Button>
           </PopoverTrigger>
 
@@ -209,36 +233,28 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   <CommandEmpty>No project found.</CommandEmpty>
 
                   <CommandGroup>
-                    <CommandItem>
-                      <Hash /> Project 1
-                    </CommandItem>
-                    <CommandItem>
-                      <Hash /> Project 2
-                    </CommandItem>
-                    <CommandItem>
-                      <Hash /> Project 3
-                    </CommandItem>
-                    <CommandItem>
-                      <Hash /> Project 4
-                    </CommandItem>
-                    <CommandItem>
-                      <Hash /> Project 5
-                    </CommandItem>
-                    <CommandItem>
-                      <Hash /> Project 6
-                    </CommandItem>
-                    <CommandItem>
-                      <Hash /> Project 7
-                    </CommandItem>
-                    <CommandItem>
-                      <Hash /> Project 8
-                    </CommandItem>
-                    <CommandItem>
-                      <Hash /> Project 9
-                    </CommandItem>
-                    <CommandItem>
-                      <Hash /> Project 10
-                    </CommandItem>
+                    {projects?.rows.map(({ $id, name, color_hex }) => (
+                      <CommandItem
+                        id={$id}
+                        onSelect={(selectedValue) => {
+                          setProjectName(
+                            selectedValue === projectName ? "" : name,
+                          );
+                          setProjectId(
+                            selectedValue === projectName ? null : $id,
+                          );
+                          setProjectColorHex(
+                            selectedValue === projectName
+                              ? undefined
+                              : color_hex,
+                          );
+                          setProjectOpen(false);
+                        }}
+                      >
+                        <Hash color={color_hex} /> {name}
+                        {projectName === name && <Check className="ms-auto" />}
+                      </CommandItem>
+                    ))}
                   </CommandGroup>
                 </ScrollArea>
               </CommandList>
