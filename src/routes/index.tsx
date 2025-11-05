@@ -22,6 +22,7 @@ import ProjectsPage from "@/pages/ProjectsPage";
 import ProjectDetailPage from "@/pages/ProjectDetailPage";
 // Error Boundaries
 import RootErrorBoundary from "@/pages/RootErrorBoundary";
+import ProjectErrorBoundary from "@/pages/ProjectErrorBoundary";
 // Actions
 import appAction from "@/routes/actions/appAction";
 import projectAction from "./actions/projectAction";
@@ -86,6 +87,7 @@ const appRouteChildren: RouteObject[] = [
     path: "projects/:projectId",
     element: <ProjectDetailPage />,
     loader: projectDetailLoader,
+    errorElement: <ProjectErrorBoundary />,
   },
 ];
 
