@@ -5,7 +5,7 @@
  */
 
 // Node Modules
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 // Custom Modules
 import { cn } from "@/lib/utils";
 // Components
@@ -13,8 +13,10 @@ import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
+  const location = useLocation();
+
   return (
-    <header className={cn("fixed top-0 left-0", "p-4", "w-full")}>
+    <header className={cn("fixed z-40 top-0 left-0", "p-4", "w-full")}>
       <div
         className={cn(
           "container",
@@ -28,16 +30,19 @@ const Header = () => {
         </Link>
 
         <div className={cn("flex items-center gap-2")}>
-          <Button
-            asChild
-            variant="ghost"
-          >
-            <Link to="/login">Sign in</Link>
-          </Button>
-
-          <Button asChild>
-            <Link to="/register">Start for free</Link>
-          </Button>
+          {location.pathname !== "/login" && (
+            <Button
+              asChild
+              variant="ghost"
+            >
+              <Link to="/login">Sign in</Link>
+            </Button>
+          )}
+          {location.pathname !== "/register" && (
+            <Button asChild>
+              <Link to="/register">Start for free</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

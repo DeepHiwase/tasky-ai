@@ -163,6 +163,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
               <Calendar
                 mode="single"
                 disabled={{ before: new Date() }}
+                selected={dueDate ? new Date(dueDate) : undefined}
                 autoFocus
                 className="!text-sidebar-foreground"
                 onSelect={(selected) => {
