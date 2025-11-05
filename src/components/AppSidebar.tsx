@@ -166,6 +166,7 @@ const AppSidebar = () => {
                 <SidebarMenu>
                   {projects?.rows
                     .slice(0, 5)
+                    // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
                     .map(({ $id, name, color_name, color_hex }) => (
                       <SidebarMenuItem key={$id}>
                         <SidebarMenuButton

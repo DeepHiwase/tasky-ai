@@ -35,6 +35,7 @@ const createProject = async (data: ProjectForm) => {
       tableId: "projects",
       rowId: generateID(),
       data: {
+        // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
         name: data.name,
         color_name: data.color_name,
         color_hex: data.color_hex,

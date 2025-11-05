@@ -40,13 +40,13 @@ import { Textarea } from "@/components/ui/textarea";
 // Constants
 import { PROJECT_COLORS } from "@/constants";
 // Types
-import type { Project, ProjectForm } from "@/types";
+import type { Project, ProjectForm as P } from "@/types";
 
 type ProjectFormProps = {
   defaultFormData?: Project;
   mode: "create" | "edit";
   onCancel?: () => void;
-  onSubmit?: (formData: ProjectForm) => void;
+  onSubmit?: (formData: P) => void;
 };
 
 const DEFAULT_PROJECT_NAME = "Untitled";
@@ -77,7 +77,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   const [colorOpen, setColorOpen] = useState<boolean>(false);
   const [aiTaskGen, setAiTaskGen] = useState<boolean>(false);
   const [taskGenPrompt, setTaskGenPrompt] = useState<string>("");
-  const [formData, setFromData] = useState<ProjectForm>({
+  const [formData, setFromData] = useState<P>({
     ...defaultFormData,
     ai_task_gen: aiTaskGen,
     task_gen_prompt: taskGenPrompt,

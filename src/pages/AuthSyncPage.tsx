@@ -30,7 +30,7 @@ const AuthSyncPage = () => {
 
       navigate("/app/today");
     }
-  }, [isSignedIn, isLoaded, userId]);
+  }, [isSignedIn, isLoaded, userId, navigate]);
 
   return <></>;
 };

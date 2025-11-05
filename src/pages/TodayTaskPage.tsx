@@ -59,6 +59,7 @@ const TodayTaskPage = () => {
         </PageHeader>
 
         <PageList>
+          {/*  @ts-expect-error ignore as APPwrite SDK don't provide sol for this */}
           {tasks.rows.map(({ $id, content, completed, due_date, project }) => (
             <TaskCard
               key={$id}

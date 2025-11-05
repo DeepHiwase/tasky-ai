@@ -69,6 +69,7 @@ const ProjectDeleteButton: React.FC<ProjectDeleteButtonProps> = ({
         duration: 5000,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultFormData]);
 
   return (

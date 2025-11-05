@@ -27,4 +27,5 @@ export const ProjectProvider: React.FC<ProjectProviderProps> = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useProjects = () => useContext(ProjectContext);

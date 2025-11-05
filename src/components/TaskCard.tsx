@@ -81,6 +81,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
         encType: "application/json",
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [task.id, task.completed],
   );
 

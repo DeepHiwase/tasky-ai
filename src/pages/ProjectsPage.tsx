@@ -54,6 +54,7 @@ const ProjectsPage = () => {
 
       setSearchingState("loading");
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

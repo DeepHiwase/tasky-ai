@@ -47,19 +47,19 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useProjects } from "@/contexts/ProjectContext";
 // Types
 import type { ClassValue } from "clsx";
-import type { TaskForm } from "@/types";
+import type { TaskForm as T } from "@/types";
 import type React from "react";
 import type { Models } from "appwrite";
 
 type TaskFormProps = {
-  defaultFormData?: TaskForm;
+  defaultFormData?: T;
   className?: ClassValue;
   mode: "create" | "edit";
   onCancel?: () => void;
-  onSubmit?: (formData: TaskForm) => void;
+  onSubmit?: (formData: T) => void;
 };
 
-const DEFAULT_FORM_DATA: TaskForm = {
+const DEFAULT_FORM_DATA: T = {
   content: "",
   due_date: null,
   project: null,
@@ -92,7 +92,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
       );
       if (!project) return;
 
+      // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
       setProjectName(project.name);
+      // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
       setProjectColorHex(project.color_hex);
     }
   }, [projects, projectId]);
@@ -234,6 +236,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   <CommandEmpty>No project found.</CommandEmpty>
 
                   <CommandGroup>
+                    {/* @ts-expect-error ignore as APPwrite SDK don't provide sol for this */}
                     {projects?.rows.map(({ $id, name, color_hex }) => (
                       <CommandItem
                         id={$id}

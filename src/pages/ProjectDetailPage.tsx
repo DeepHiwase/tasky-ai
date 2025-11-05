@@ -33,11 +33,13 @@ const ProjectDetailPage = () => {
 
   // Get task that are not completed
   const projectTasks = project.tasks.filter(
+    // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
     (i: Models.Row) => !i.completed,
   ) as Models.Row[];
 
   // Sort task by due date
   projectTasks.sort((a, b) => {
+    // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
     return a.due_date < b.due_date ? -1 : 1;
   });
 
@@ -45,20 +47,26 @@ const ProjectDetailPage = () => {
 
   return (
     <>
+      {/* @ts-expect-error ignore as APPwrite SDK don't provide sol for this */}
       <Head title={project.name + " - Tasky AI"} />
 
+      {/* @ts-expect-error ignore as APPwrite SDK don't provide sol for this */}
       <TopAppBar title={project.name} />
 
       <Page>
         <PageHeader>
           <div className="flex items-center gap-2">
+            {/* @ts-expect-error ignore as APPwrite SDK don't provide sol for this */}
             <PageTitle>{project.name}</PageTitle>
 
             <ProjectActionMenu
               defaultFormData={{
                 id: project.$id,
+                // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
                 name: project.name,
+                // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
                 color_name: project.color_name,
+                // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
                 color_hex: project.color_hex,
               }}
             >
@@ -75,6 +83,7 @@ const ProjectDetailPage = () => {
         </PageHeader>
 
         <PageList>
+          {/* @ts-expect-error ignore as APPwrite SDK don't provide sol for this */}
           {projectTasks.map(({ $id, content, completed, due_date }) => (
             <TaskCard
               key={$id}

@@ -33,17 +33,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     >
       <Hash
         size={16}
+        // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
         color={project.color_hex}
         className="shrink-0"
       />
-      <p className={cn("max-w-[48ch]", "text-sm truncate")}>{project.name}</p>
+      <p className={cn("max-w-[48ch]", "text-sm truncate")}>
+        {
+          // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
+          project.name
+        }
+      </p>
 
       {/* Active Menu */}
       <ProjectActionMenu
         defaultFormData={{
           id: project.$id,
+          // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
           name: project.name,
+          // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
           color_name: project.color_name,
+          // @ts-expect-error ignore as APPwrite SDK don't provide sol for this
           color_hex: project.color_hex,
         }}
       >
